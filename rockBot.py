@@ -7,6 +7,7 @@ Created on Sat Jun 23 11:54:29 2018
 
 import sc2
 import math
+import time
 #from sentBot import SentdeBot
 from sc2 import run_game, maps, Race, Difficulty
 from sc2.player import Bot, Computer
@@ -17,7 +18,7 @@ from sc2.constants import COMMANDCENTER, SCV,SUPPLYDEPOT,REFINERY, BARRACKS, MAR
 MARAUDER,LIFT_BARRACKS,LAND_BARRACKS,BARRACKSFLYING,ENGINEERINGBAY,ENGINEERINGBAYRESEARCH_TERRANINFANTRYWEAPONSLEVEL1,\
 ENGINEERINGBAYRESEARCH_TERRANINFANTRYWEAPONSLEVEL2,ENGINEERINGBAYRESEARCH_TERRANINFANTRYWEAPONSLEVEL3,RESEARCH_COMBATSHIELD,\
 ENGINEERINGBAYRESEARCH_TERRANINFANTRYARMORLEVEL1,ENGINEERINGBAYRESEARCH_TERRANINFANTRYARMORLEVEL2,RESEARCH_CONCUSSIVESHELLS,\
-ENGINEERINGBAYRESEARCH_TERRANINFANTRYARMORLEVEL3,ARMORY,FACTORY,ATTACK_ATTACKTOWARDS,PATROL,SCAN_MOVE
+ENGINEERINGBAYRESEARCH_TERRANINFANTRYARMORLEVEL3,ARMORY,FACTORY,ATTACK_ATTACKTOWARDS,PATROL,SCAN_MOVE,RALLY_UNITS
 
 class rockBot(sc2.BotAI):
     def __init__(self):
@@ -89,13 +90,13 @@ class rockBot(sc2.BotAI):
                     if self.findDistanceBetweenPositions(self.scout.position,self.expansions[self.expansionIndex]) < 5:
                         if self.expansionIndex+1 < len(self.expansions):
                             self.expansionIndex +=1
-                            await self.do(self.scout.attack(self.expansions[self.expansionIndex]))
+                            await self.do(self.scout.move(self.expansions[self.expansionIndex]))
                             
                         else:
                             self.expansionIndex = 0
-                            await self.do(self.scout.attack(self.expansions[self.expansionIndex]))
+                            await self.do(self.scout.move(self.expansions[self.expansionIndex]))
                     else:
-                        await self.do(self.scout.attack(self.expansions[self.expansionIndex]))
+                        await self.do(self.scout.move(self.expansions[self.expansionIndex]))
                         
                         
         
@@ -262,6 +263,8 @@ class rockBot(sc2.BotAI):
                         if barracks.noqueue:
                             if self.can_afford(MARAUDER):
                                 await self.do(barracks.train(MARAUDER))
+                
+                await self.do(barracks(RALLY_UNITS,self.rallyPoint))
                     
         
            
@@ -470,6 +473,7 @@ def completeBestOfSeries(_map,player1,player2,numberOfGames,_realtime = False): 
             results["player1"]+=1
         else:
             results["player2"]+=1
+        time.sleep(1)
             
     print("The best of {} series ends with {} games for player1 and {} games for player2.".format(str(numberOfGames),
           str(results["player1"]),str(results["player2"])))
@@ -483,6 +487,6 @@ def completeBestOfSeries(_map,player1,player2,numberOfGames,_realtime = False): 
 
 if __name__ == "__main__":
     #completeBestOfSeries("AbyssalReefLE",Bot(Race.Terran, rockBot()),Bot(Race.Protoss, SentdeBot()),7,_realtime = False)
-    completeBestOfSeries("AbyssalReefLE",Bot(Race.Terran, rockBot()),Computer(Race.Protoss, Difficulty.Hard),3,_realtime = False)
+    completeBestOfSeries("AbyssalReefLE",Bot(Race.Terran, rockBot()),Computer(Race.Zerg, Difficulty.Hard),3,_realtime = False)
     #Bot(Race.Protoss, SentdeBot())
     
