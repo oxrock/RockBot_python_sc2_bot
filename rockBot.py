@@ -7,7 +7,7 @@ Created on Sat Jun 23 11:54:29 2018
 
 import sc2
 import math
-from sentBot import SentdeBot
+#from sentBot import SentdeBot
 from sc2 import run_game, maps, Race, Difficulty
 from sc2.player import Bot, Computer
 from sc2.bot_ai import*
@@ -482,6 +482,7 @@ def completeBestOfSeries(_map,player1,player2,numberOfGames,_realtime = False): 
 
 
 if __name__ == "__main__":
-    completeBestOfSeries("AbyssalReefLE",Bot(Race.Terran, rockBot()),Bot(Race.Protoss, SentdeBot()),7,_realtime = False)
+    #completeBestOfSeries("AbyssalReefLE",Bot(Race.Terran, rockBot()),Bot(Race.Protoss, SentdeBot()),7,_realtime = False)
+    completeBestOfSeries("AbyssalReefLE",Bot(Race.Terran, rockBot()),Computer(Race.Protoss, Difficulty.Hard),3,_realtime = False)
     #Bot(Race.Protoss, SentdeBot())
     
